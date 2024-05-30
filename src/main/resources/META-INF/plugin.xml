@@ -1,0 +1,46 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.helpers.flyway-helper</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Flyway-helper</name>
+
+    <description>
+        Flyway helper plugin to avoid migrations conflicts before pushing and retrieving changes from remote repository.
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+
+<!--    <applicationListeners>-->
+<!--        <listener-->
+<!--                class="com.helpers.flywayhelper.FlywayMigrationListener"-->
+<!--                topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>-->
+<!--    </applicationListeners>-->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Flyway Migration Helper" secondary="true" icon="AllIcons.Toolwindows.WebToolWindow" anchor="right"
+                    factoryClass="com.helpers.flywayhelper.FlywayMigrationTreeWindow"/>
+        <notificationGroup id="Default" displayType="BALLOON"/>
+    </extensions>
+    <actions>
+        <action
+                id="StackOverflow.Search.Editor"
+                class="com.helpers.flywayhelper.SearchAction"
+                text="Search on Stack Overflow"
+                description="Search on Stack Overflow">
+            <add-to-group group-id="EditorContextBarMenu" anchor="last"/>
+        </action>
+        <action
+                id="flyway.migration"
+                class="com.helpers.flywayhelper.CreateMigrationAction"
+                text="New Migration"
+                icon="AllIcons.FileTypes.Custom"
+                description="New migration">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+        </action>
+    </actions>
+</idea-plugin>
