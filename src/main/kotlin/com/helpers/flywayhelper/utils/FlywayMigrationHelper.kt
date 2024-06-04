@@ -1,13 +1,13 @@
-package com.helpers.flywayhelper.utils;
+package com.helpers.flywayhelper.utils
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VirtualFile
+import java.util.*
 
 class FlywayMigrationHelper(private val project: Project) {
 
-
-    fun getMigrationFiles(): Map<String, List<FlywayMigrationFile>> {
+    private fun getMigrationFiles(): Map<String, List<FlywayMigrationFile>> {
         val baseDir: VirtualFile? = project.guessProjectDir()
         val ddlDir: VirtualFile? = baseDir?.findFileByRelativePath("src/main/resources/db/migration/ddl")
         val dmlDir: VirtualFile? = baseDir?.findFileByRelativePath("src/main/resources/db/migration/dml")
@@ -23,36 +23,27 @@ class FlywayMigrationHelper(private val project: Project) {
 
     fun nextMigrationFileVersion(): String {
         val migrationFiles = getMigrationFiles()
-        val maxVersionSplit = migrationFiles.values.flatten().map { it.getVersion() }.maxOf { it }.split("_")
+        val (firstPartVersion, secondPartVersion, thirdPartVersion) = migrationFiles.values.flatten()
+                .filter { it.isValidMigration() && it.getType() == MigrationType.VERSIONED}
+                .maxByOrNull { it.getVersion()!! }!!
+                .getVersionParts()!!
+                .map { it.toInt() }
+        val intermediateNextMigration = ("$firstPartVersion$secondPartVersion$thirdPartVersion".toInt() + 1).toString()
+
         return try {
-            "${maxVersionSplit[0]}_${maxVersionSplit[1]}_${(maxVersionSplit[2].toInt() + 1).toString().padStart(3, '0')}"
+            "V${intermediateNextMigration[0]}_${intermediateNextMigration[1]}_${intermediateNextMigration.subSequence(2, intermediateNextMigration.length).padStart(3, '0')}"
         }
         catch (_: Exception) {
             ""
         }
     }
 
-    class FlywayMigrationFile(private val nature: MigrationNature, private val name: String){
-        override fun toString(): String {
-            return "${getNature()}: ${getVersion()} => ${getDescriptiveName()}"
-        }
-
-        private fun getNature(): String {
-            return nature.name
-        }
-
-        private fun getDescriptiveName(): String {
-            return name.split("__")[1]
-        }
-
-        fun getVersion(): String {
-            return name.split("__")[0]
-        }
-
-    }
-
-    enum class MigrationNature {
-        DDL,
-        DML
+    fun exists(flywayMigrationFile: FlywayMigrationFile): Boolean {
+        val migrationFiles = getMigrationFiles()
+        return Objects.nonNull(
+                migrationFiles.values.flatten()
+                .filter { it.isValidMigration() }
+                .find { it.hasConflict(flywayMigrationFile) }
+        )
     }
 }
