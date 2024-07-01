@@ -1,9 +1,12 @@
-package com.helpers.flywayhelper
+package com.helpers.flywayhelper.actions
 
-import com.helpers.flywayhelper.utils.FlywayMigrationFile
-import com.helpers.flywayhelper.utils.FlywayMigrationHelper
-import com.helpers.flywayhelper.utils.MigrationNature
+import com.helpers.flywayhelper.Constants.SYNC_BRANCH_SETTING_KEY
+import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
+import com.helpers.flywayhelper.entities.FlywayMigrationFile
+import com.helpers.flywayhelper.helpers.FlywayMigrationHelper
+import com.helpers.flywayhelper.enums.MigrationNature
 import com.helpers.flywayhelper.utils.notifications.Notifier
+import com.helpers.flywayhelper.utils.storage.SettingStorageHelper
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -12,6 +15,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.ui.InputValidatorEx
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
 import org.apache.commons.lang3.StringUtils
 
@@ -36,11 +40,14 @@ class CreateMigrationAction : AnAction() {
         }
         val launchedFromDir = if (launchedFromFile.isDirectory) launchedFromFile else launchedFromFile.parent
 
-        val flywayMigrationHelper = FlywayMigrationHelper(project)
+        val syncBranch = SettingStorageHelper.getSyncBranch() ?: LOCAL_BRANCH
+        val syncBranchStringMessage = if (syncBranch != LOCAL_BRANCH) "(synced with $syncBranch)" else ""
+
+        val flywayMigrationHelper = FlywayMigrationHelper(project, syncBranch)
         val nextMigrationFileVersion = flywayMigrationHelper.nextMigrationFileVersion()
 
         val migrationFileInputPair = Messages.showInputDialogWithCheckBox(
-                "Enter migration file name: ",
+                "Enter migration file name: $syncBranchStringMessage",
                 "New File",
                 "Use this file as reference",
                 false,
@@ -49,11 +56,7 @@ class CreateMigrationAction : AnAction() {
                 "${nextMigrationFileVersion}__.sql",
                 object : InputValidatorEx {
                     override fun checkInput(inputString: String?): Boolean {
-                        val flywayMigrationFile = FlywayMigrationFile.of(MigrationNature.UNKNOWN, inputString!!)
-
-                        return StringUtils.isNotBlank(inputString)
-                                && FlywayMigrationFile.of(MigrationNature.UNKNOWN, inputString).isValidMigration()
-                                && !flywayMigrationHelper.exists(flywayMigrationFile)
+                        return getErrorText(inputString) == null
                     }
 
                     override fun canClose(inputString: String?): Boolean {
@@ -75,9 +78,9 @@ class CreateMigrationAction : AnAction() {
         )
 
         if (StringUtils.isNotEmpty(migrationFileInputPair.getFirst())) {
-
+            var newFile: VirtualFile? = null
             val r = Runnable {
-                val newFile = launchedFromDir?.createChildData(this, migrationFileInputPair.getFirst())
+                newFile = launchedFromDir?.createChildData(this, migrationFileInputPair.getFirst())
 
                 if (newFile == null) {
                     Notifier(project).notifyError("Error while creating the file")
@@ -85,14 +88,16 @@ class CreateMigrationAction : AnAction() {
                 }
 
                 if (migrationFileInputPair.getSecond()) {
-                    VfsUtil.saveText(newFile, VfsUtil.loadText(launchedFromFile))
+                    VfsUtil.saveText(newFile!!, VfsUtil.loadText(launchedFromFile))
                 }
 
                 // Refresh the virtual file system to show the new file
                 VirtualFileManager.getInstance().syncRefresh()
-                FileEditorManager.getInstance(project).openFile(newFile, true)
             }
+
             WriteCommandAction.runWriteCommandAction(project, r)
+            newFile?.let { FileEditorManager.getInstance(project).openFile(it, true) }
+
         }
     }
 

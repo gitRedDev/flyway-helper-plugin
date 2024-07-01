@@ -1,4 +1,4 @@
-package com.helpers.flywayhelper.utils
+package com.helpers.flywayhelper.enums
 
 
 

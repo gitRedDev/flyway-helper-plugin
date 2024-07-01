@@ -1,30 +1,27 @@
-package com.helpers.flywayhelper.utils
+package com.helpers.flywayhelper.entities
 
-
+import com.helpers.flywayhelper.enums.MigrationNature
+import com.helpers.flywayhelper.enums.MigrationTypeEnum
 
 class FlywayMigrationFile(private val nature: MigrationNature, private val name: String){
 
-    private val POSSIBLE_MIGRATION_COMMANDS = MigrationType.values().map { it.getAlias() }
+    private val POSSIBLE_MIGRATION_COMMANDS = MigrationTypeEnum.values().map { it.getAlias() }
 
 
     private fun getNature(): String {
         return nature.name
     }
 
-    fun getType(): MigrationType? {
-        return if (isValidMigration()) MigrationType.byAlias(name[0]) else null
+    fun getType(): MigrationTypeEnum? {
+        return if (isValidMigration()) MigrationTypeEnum.byAlias(name[0]) else null
     }
 
     private fun getPrefix(): Char? {
         return if (isValidPrefix()) name[0] else null
     }
 
-    fun getVersion(): String? {
-        return if (isValidVersion()) name.subSequence(1, name.length).split("__")[0] else null
-    }
-
-    fun getVersionParts(): List<String>? {
-        return getVersion()?.split("_")
+    fun getVersion(): MigrationVersion? {
+        return if (canConstructMigrationVersion()) MigrationVersion(name.subSequence(1, name.length).split("__")[0]) else null
     }
 
     private fun getDescriptiveName(): String? {
@@ -47,7 +44,7 @@ class FlywayMigrationFile(private val nature: MigrationNature, private val name:
         }
     }
 
-    private fun isValidVersion(): Boolean {
+    private fun canConstructMigrationVersion(): Boolean {
         return try {
             name.subSequence(1, name.length).split("__")[0].isNotBlank()
         } catch (_: Exception) {
@@ -72,13 +69,13 @@ class FlywayMigrationFile(private val nature: MigrationNature, private val name:
     }
 
     fun isValidMigration(): Boolean {
-        return isValidPrefix() && isValidVersion() && isValidDescriptiveName() && isValidSuffix()
+        return isValidPrefix() && getVersion()?.isValidVersion() == true && isValidDescriptiveName() && isValidSuffix()
     }
 
     fun hasConflict(flywayMigrationFile: FlywayMigrationFile): Boolean {
         return flywayMigrationFile.isValidMigration() &&
                 this.isValidMigration() &&
-                flywayMigrationFile.getVersion().equals(this.getVersion()) &&
+                flywayMigrationFile.getVersion()!! == this.getVersion() &&
                 flywayMigrationFile.getPrefix()!! == getPrefix()
     }
 

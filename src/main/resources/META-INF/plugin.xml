@@ -1,5 +1,5 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<idea-plugin>
+<idea-plugin require-restart="true">
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.helpers.flyway-helper</id>
 
@@ -16,14 +16,58 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="flyway.migration.notification" displayType="BALLOON"/>
+    </extensions>
+
     <actions>
+        <group
+                id="flyway.migration.settings"
+                text="Flyway Helper"
+                description="Flyway helper"
+                icon="CustomIcons.PluginIcon"
+                popup="true">
+            <action
+                    id="flyway.migration.configure.sync.branch"
+                    class="com.helpers.flywayhelper.actions.ConfigureSyncBranchAction"
+                    text="Configure Sync Branch"
+                    icon="AllIcons.Ide.ConfigFile"
+                    description="Configure sync branch">
+            </action>
+            <action
+                    id="flyway.migration.readmore"
+                    class="com.helpers.flywayhelper.actions.ReadMoreAction"
+                    text="Read More..."
+                    icon="AllIcons.Actions.More"
+                    description="Read more...">
+            </action>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </group>
         <action
-                id="flyway.migration"
-                class="com.helpers.flywayhelper.CreateMigrationAction"
+                id="flyway.migration.create"
+                class="com.helpers.flywayhelper.actions.CreateMigrationAction"
                 text="New Migration"
-                icon="AllIcons.FileTypes.Custom"
+                icon="CustomIcons.Dark.MigrationFileIcon"
                 description="New migration">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
     </actions>
+
+    <applicationListeners>
+        <listener
+                class="com.helpers.flywayhelper.listeners.OnOpenProjectListener"
+                topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+
+    <change-notes>
+        <![CDATA[
+            <p><b>Version: 1.0.0</b></p>
+            <ul>
+              <li>Get the next version for your migration file automatically</li>
+              <li>Avoid having version conflicts among your migration files</li>
+            </ul>
+            <p><i>PS: You can even sync it with a remote branch to get always the latest version that you may need</i></p>
+        ]]>
+    </change-notes>
+
 </idea-plugin>
