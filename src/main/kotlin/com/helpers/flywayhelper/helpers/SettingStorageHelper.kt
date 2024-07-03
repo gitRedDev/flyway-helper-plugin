@@ -1,7 +1,8 @@
-package com.helpers.flywayhelper.utils.storage
+package com.helpers.flywayhelper.helpers
 
 import com.helpers.flywayhelper.Constants.ON_INSTALL_SETTING_KEY
 import com.helpers.flywayhelper.Constants.SYNC_BRANCH_SETTING_KEY
+import com.helpers.flywayhelper.utils.storage.SettingStorage
 
 class SettingStorageHelper {
 

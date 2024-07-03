@@ -1,8 +1,7 @@
 package com.helpers.flywayhelper.listeners
 
-import com.helpers.flywayhelper.actions.ReadMoreAction
 import com.helpers.flywayhelper.utils.notifications.Notifier
-import com.helpers.flywayhelper.utils.storage.SettingStorageHelper
+import com.helpers.flywayhelper.helpers.SettingStorageHelper
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
 

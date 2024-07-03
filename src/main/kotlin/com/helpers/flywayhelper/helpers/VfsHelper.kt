@@ -5,10 +5,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VfsUtil
 import java.io.InputStream
-import java.nio.file.Files
-import java.nio.file.Paths
 
-class CustomVfsUtil(private val project: Project) {
+class VfsHelper(private val project: Project) {
 
     private fun findOrCreateFileAndOpen(dir: String, filename: String, content: String, open: Boolean) {
         val baseDir = project.guessProjectDir()

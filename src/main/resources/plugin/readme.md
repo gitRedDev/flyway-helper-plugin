@@ -16,6 +16,8 @@ consideration while checking for version conflicts or/and when generating your
 * Choose: <i>New -> New Migration</i>
 * You get the new file dialog with a default value containing the next migration version
 * If you want to sync with a remote branch you can configure it in: <i>Tools -> flyway helper -> configure sync branch</i>
+* If sync branch is configured, you should refresh the migrations (before using the <i>New Migration</i> action) by : \
+<i>Right click on a migration file -> Flyway Helper -> Refresh migrations</i>
   <i><p><b>
     PS: You can also use a file as reference by invoking the new migration action on it and then checking the 
     \<Use this file as reference\> checkbox.

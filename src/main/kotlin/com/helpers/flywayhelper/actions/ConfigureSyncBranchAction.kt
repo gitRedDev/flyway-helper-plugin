@@ -1,8 +1,7 @@
 package com.helpers.flywayhelper.actions
 
-import com.helpers.flywayhelper.Constants.SYNC_BRANCH_SETTING_KEY
 import com.helpers.flywayhelper.utils.notifications.Notifier
-import com.helpers.flywayhelper.utils.storage.SettingStorageHelper
+import com.helpers.flywayhelper.helpers.SettingStorageHelper
 import com.helpers.flywayhelper.utils.terminal.TerminalClient
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

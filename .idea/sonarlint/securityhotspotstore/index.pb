@@ -18,8 +18,6 @@ Isrc/main/kotlin/com/helpers/flywayhelper/actions/CreateMigrationAction.kt,3\2\
 Msrc/main/kotlin/com/helpers/flywayhelper/actions/ConfigureSyncBranchAction.kt,6\1\61ac3d5f38cecfb1aeee39de46c33beea3bcca87
 x
 Hsrc/main/kotlin/com/helpers/flywayhelper/utils/storage/SettingStorage.kt,2\3\23afb5b64149489ebc3dfc82eca9f9a298ef27ee
-~
-Nsrc/main/kotlin/com/helpers/flywayhelper/utils/storage/SettingStorageHelper.kt,8\8\88ba6df0a4a260f9b372b4412ba3daa687dc911d
 s
 Csrc/main/kotlin/com/helpers/flywayhelper/enums/MigrationTypeEnum.kt,c\e\ce0b169a2e5713b6a8b683e2e85724e1f46adfdf
 x
@@ -36,5 +34,9 @@ r
 Bsrc/main/kotlin/com/helpers/flywayhelper/actions/ReadMoreAction.kt,a\8\a8689593a95280793548587c001eaa90dd29f6de
 T
 $src/main/kotlin/icons/CustomIcons.kt,b\1\b17721496721b9186e9435fadc661cf9d6dba642
-q
-Asrc/main/kotlin/com/helpers/flywayhelper/helpers/CustomVfsUtil.kt,2\3\23cdffaf37bda4a18ad91842a7e4cc2ea32a09d4
+m
+=src/main/kotlin/com/helpers/flywayhelper/helpers/VfsHelper.kt,7\5\75df3ff4d74e93e931d5518c21a9ed783f8f1e83
+z
+Jsrc/main/kotlin/com/helpers/flywayhelper/actions/RefreshMigrationAction.kt,6\b\6b417331c380bbc00c3a5d063b7d7499cbf0b1ab
+x
+Hsrc/main/kotlin/com/helpers/flywayhelper/helpers/SettingStorageHelper.kt,9\f\9f1d325e21abeaad46ecf109ee6e7e4197e91d15

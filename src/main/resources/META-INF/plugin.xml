@@ -21,6 +21,13 @@
     </extensions>
 
     <actions>
+        <action
+                id="flyway.migration.refresh"
+                class="com.helpers.flywayhelper.actions.RefreshMigrationAction"
+                text="Refresh Migrations"
+                icon="AllIcons.Actions.Refresh"
+                description="Refresh migrations">
+        </action>
         <group
                 id="flyway.migration.settings"
                 text="Flyway Helper"
@@ -28,12 +35,13 @@
                 icon="CustomIcons.PluginIcon"
                 popup="true">
             <action
-                    id="flyway.migration.configure.sync.branch"
+                    id="flyway.migration.configure.syncBranch"
                     class="com.helpers.flywayhelper.actions.ConfigureSyncBranchAction"
                     text="Configure Sync Branch"
                     icon="AllIcons.Ide.ConfigFile"
                     description="Configure sync branch">
             </action>
+            <reference ref="flyway.migration.refresh" />
             <action
                     id="flyway.migration.readmore"
                     class="com.helpers.flywayhelper.actions.ReadMoreAction"
@@ -51,6 +59,15 @@
                 description="New migration">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
+        <group
+                id="flyway.migration.projectActions"
+                text="Flyway Helper"
+                description="Flyway helper"
+                icon="CustomIcons.PluginIcon"
+                popup="true">
+            <reference ref="flyway.migration.refresh" />
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="VersionControlsGroup"/>
+        </group>
     </actions>
 
     <applicationListeners>

@@ -15,6 +15,7 @@ import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
+import icons.CustomIcons
 
 class Notifier(private val project: Project?) {
 
@@ -25,7 +26,6 @@ class Notifier(private val project: Project?) {
                     .createNotification(message, type)
 
             notification.setTitle(PLUGIN_NAME)
-            notification.setIcon(AllIcons.Ide.Rating)
             notification.addActions(actions)
             return notification
         }
@@ -35,13 +35,20 @@ class Notifier(private val project: Project?) {
                     .notify(project)
         }
 
-        fun notify(message: String, type: NotificationType = NotificationType.INFORMATION) {
+        private fun notify(message: String, type: NotificationType) {
             notify(message, type, emptyList())
+        }
+
+        fun notifyInfo(message: String) {
+            notify(message, NotificationType.INFORMATION)
         }
 
         fun notifyError(message: String) {
             notify(message, NotificationType.ERROR)
         }
+
+
+
 
         fun howToUseNotify() {
             val configureSyncBranchAction = ConfigureSyncBranchAction.getInstance()

@@ -16,9 +16,6 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
     private var migrationFiles: List<FlywayMigrationFile>? = null
 
     init {
-        if (branch != LOCAL_BRANCH) {
-            terminalClient.execVoid("git fetch", true)
-        }
         migrationFiles = getSyncedMigrationFiles()
     }
 
@@ -76,5 +73,9 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
                         .filter { it.isValidMigration() }
                         .find { it.hasConflict(flywayMigrationFile) }
         )
+    }
+
+    fun refreshMigrations() {
+        terminalClient.execVoid("git fetch", true)
     }
 }
