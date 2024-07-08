@@ -27,7 +27,7 @@ intellij {
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "17"
+        sourceCompatibility = "8"
         targetCompatibility = "17"
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -35,8 +35,13 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("221")
+        sinceBuild.set("222")
         untilBuild.set("241.*")
+    }
+
+    runPluginVerifier {
+        ideVersions.set(listOf("IC-2022.1.2", "IC-2023.1.7", "IU-2023.1.7"))
+        localPaths.set(listOf())
     }
 
     signPlugin {

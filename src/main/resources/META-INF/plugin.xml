@@ -70,11 +70,10 @@
         </group>
     </actions>
 
-    <applicationListeners>
-        <listener
-                class="com.helpers.flywayhelper.listeners.OnOpenProjectListener"
-                topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Other extensions -->
+        <postStartupActivity implementation="com.helpers.flywayhelper.activities.OnOpenProjectActivity"/>
+    </extensions>
 
     <change-notes>
         <![CDATA[
