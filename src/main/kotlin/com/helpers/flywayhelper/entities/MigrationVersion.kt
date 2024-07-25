@@ -67,12 +67,16 @@ class MigrationVersion(private val version: String) {
     }
 
     fun isValidVersion(): Boolean {
+        return versionError() == null
+    }
+
+    fun versionError(): String? {
         return try {
             val parts = version.replace("_", ".").split(".")
             parts.map { it.toInt() }
-            return parts.isNotEmpty() && parts.all { it.isNotBlank() }
+            return if (parts.isNotEmpty() && parts.all { it.isNotBlank() }) null else "migration version number is not valid"
         } catch (_: Exception) {
-            false
+            "migration version number is not valid"
         }
     }
 

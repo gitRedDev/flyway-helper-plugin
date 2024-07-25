@@ -8,6 +8,8 @@ object Constants {
     val PLUGIN_README_NAME = "readme.md"
     val PLUGIN_README_IMAGE_NAME = "flyway-helper-image.png"
 
+    val MIGRATION_DIR_PATH = "src/main/resources/db/migration"
+
     //settings
     val LOCAL_BRANCH = "HEAD"
     val SYNC_BRANCH_SETTING_KEY = "syncBranch"

@@ -1,6 +1,7 @@
 package com.helpers.flywayhelper.helpers
 
 import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
+import com.helpers.flywayhelper.Constants.MIGRATION_DIR_PATH
 import com.helpers.flywayhelper.entities.FlywayMigrationFile
 import com.helpers.flywayhelper.enums.MigrationNature
 import com.helpers.flywayhelper.enums.MigrationTypeEnum
@@ -11,7 +12,6 @@ import java.util.*
 
 class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL_BRANCH) {
 
-    private val MIGRATION_DIR_PATH = "src/main/resources/db/migration"
     private val terminalClient = TerminalClient(project)
     private var migrationFiles: List<FlywayMigrationFile>? = null
 

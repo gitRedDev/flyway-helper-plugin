@@ -6,6 +6,7 @@ import com.helpers.flywayhelper.helpers.FlywayMigrationHelper
 import com.helpers.flywayhelper.enums.MigrationNature
 import com.helpers.flywayhelper.utils.notifications.Notifier
 import com.helpers.flywayhelper.helpers.SettingStorageHelper
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -21,9 +22,10 @@ import org.apache.commons.lang3.StringUtils
 
 class CreateMigrationAction : AnAction() {
 
-    /**
-     * @param e
-     */
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
 
         val project = e.getData(CommonDataKeys.PROJECT)

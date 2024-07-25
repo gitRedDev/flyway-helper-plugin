@@ -37,10 +37,14 @@ class FlywayMigrationFile(private val nature: MigrationNature, private val name:
     }
 
     private fun isValidPrefix(): Boolean {
+        return prefixError() == null
+    }
+
+    private fun prefixError(): String? {
         return try {
-            name[0] in POSSIBLE_MIGRATION_COMMANDS
+            if (name[0] in POSSIBLE_MIGRATION_COMMANDS) null else "Prefix should be one of $POSSIBLE_MIGRATION_COMMANDS"
         } catch (_: Exception) {
-            false
+            "Prefix should be one of $POSSIBLE_MIGRATION_COMMANDS"
         }
     }
 
@@ -53,23 +57,39 @@ class FlywayMigrationFile(private val nature: MigrationNature, private val name:
     }
 
     private fun isValidDescriptiveName(): Boolean {
+        return descriptiveNameError() == null
+    }
+
+    private fun descriptiveNameError(): String? {
         return try {
-            name.subSequence(1, name.length).split("__")[1].split(".")[0].isNotBlank()
+            if (name.subSequence(1, name.length).split("__")[1].split(".")[0].isNotBlank()) null else "migration name should not be blank"
         } catch (_: Exception) {
-            false
+            "migration name should not be blank"
         }
     }
 
     private fun isValidSuffix(): Boolean {
+        return suffixError() == null
+    }
+
+    private fun suffixError(): String? {
         return try {
-            name.subSequence(1, name.length).split("__")[1].split(".")[1].isNotBlank()
+            if (name.subSequence(1, name.length).split("__")[1].split(".")[1].isNotBlank()) null else "file extension should not be blank"
         } catch (_: Exception) {
-            false
+            "file extension should not be blank"
         }
     }
 
     fun isValidMigration(): Boolean {
-        return isValidPrefix() && getVersion()?.isValidVersion() == true && isValidDescriptiveName() && isValidSuffix()
+        return migrationError() == null
+    }
+
+    fun migrationError(): String? {
+        return prefixError()
+                ?: (if (getVersion()?.versionError() == null) null else getVersion()?.versionError())
+                ?: descriptiveNameError()
+                ?: suffixError()
+
     }
 
     fun hasConflict(flywayMigrationFile: FlywayMigrationFile): Boolean {
