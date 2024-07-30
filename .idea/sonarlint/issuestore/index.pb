@@ -42,3 +42,5 @@ u
 Esrc/main/kotlin/com/helpers/flywayhelper/entities/MigrationVersion.kt,b\2\b2a091d602244dc3473c8facc7803326bc474812
 |
 Lsrc/main/kotlin/com/helpers/flywayhelper/activities/OnOpenProjectActivity.kt,2\2\22bf0f9856bf79474a701fb842c6f35996c238a4
+9
+	readme.md,2\7\275d783e298228506068436512433d343feb52aa
