@@ -1,5 +1,7 @@
 package com.helpers.flywayhelper.helpers
 
+import com.helpers.flywayhelper.Constants
+import com.helpers.flywayhelper.Constants.MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY
 import com.helpers.flywayhelper.Constants.ON_INSTALL_SETTING_KEY
 import com.helpers.flywayhelper.Constants.SYNC_BRANCH_SETTING_KEY
 import com.helpers.flywayhelper.utils.storage.SettingStorage
@@ -31,6 +33,16 @@ class SettingStorageHelper {
         }
 
         @JvmStatic
+        fun getMigrationRootFolderPath(): String {
+            return (getSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY) as String?) ?: Constants.DEFAULT_MIGRATION_DIR_PATH
+        }
+
+        @JvmStatic
+        fun setMigrationRootFolderPath(path: String): String? {
+            return setSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY, path) as String?
+        }
+
+        @JvmStatic
         fun getSetting(settingKey: String): Any? {
             return settingStorage.getSettings()[settingKey]
         }
@@ -38,6 +50,11 @@ class SettingStorageHelper {
         @JvmStatic
         fun setSetting(settingKey: String, settingValue: Any): Any? {
             return settingStorage.setSetting(settingKey, settingValue)
+        }
+
+        @JvmStatic
+        fun removeSetting(settingKey: String): Any? {
+            return settingStorage.removeSetting(settingKey)
         }
     }
 }

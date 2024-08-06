@@ -26,6 +26,12 @@ class SettingStorage : PersistentStateComponent<SettingStorage> {
         return previousValue
     }
 
+    fun removeSetting(settingKey: String): Any? {
+        val previousValue = settings.remove(settingKey)
+        loadState(this)
+        return previousValue
+    }
+
     @Nullable
     override fun getState(): SettingStorage {
         return this

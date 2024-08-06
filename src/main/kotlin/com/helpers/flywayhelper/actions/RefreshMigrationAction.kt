@@ -15,7 +15,7 @@ import com.intellij.openapi.progress.Task
 class RefreshMigrationAction : AnAction() {
 
     override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.EDT
+        return ActionUpdateThread.BGT
     }
 
     override fun actionPerformed(e: AnActionEvent) {
@@ -50,8 +50,6 @@ class RefreshMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        if (launchedFromFile?.path?.contains("migration/(ddl|dml)") != true) {
-            e.presentation.isEnabledAndVisible = true
-        }
+        e.presentation.isEnabledAndVisible = launchedFromFile?.path?.contains(Regex("migration/(ddl|dml)")) == true
     }
 }

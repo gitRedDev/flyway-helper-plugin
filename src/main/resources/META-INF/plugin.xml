@@ -59,6 +59,14 @@
                 description="New migration">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
+        <action
+                id="flyway.migration.markAsMigrationRootDirectory"
+                class="com.helpers.flywayhelper.actions.MarkAsMigrationRootAction"
+                text="Migrations Root"
+                icon="CustomIcons.Dark.MigrationFolderRootIcon"
+                description="Migrations root">
+            <add-to-group group-id="MarkRootGroup" anchor="last"/>
+        </action>
         <group
                 id="flyway.migration.projectActions"
                 text="Flyway Helper"
