@@ -10,7 +10,9 @@ consideration while checking for version conflicts or/and when generating your
 ![img](flyway-helper-image.png)
 
 ### How to use
-* Install the plugin 
+* Install the plugin
+* Mark the parent directory where you hold your migrations (it can be a directory containing other folders) as migration root:
+<i>Right click on the folder -> mark directory as -> Migration Root</i>
 * Go to the directory where you want to create the migration(either ddl or dml)
 * Right-click on the directory or on any of its child files
 * Choose: <i>New -> New Migration</i>
