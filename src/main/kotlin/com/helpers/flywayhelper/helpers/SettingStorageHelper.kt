@@ -33,13 +33,18 @@ class SettingStorageHelper {
         }
 
         @JvmStatic
-        fun getMigrationRootFolderPath(): String {
-            return (getSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY) as String?) ?: Constants.DEFAULT_MIGRATION_DIR_PATH
+        fun getMigrationRootFolderPath(): String? {
+            return getSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY) as String?
         }
 
         @JvmStatic
         fun setMigrationRootFolderPath(path: String): String? {
             return setSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY, path) as String?
+        }
+
+        @JvmStatic
+        fun removeMigrationRootFolderPath(): String? {
+            return setSetting(MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY, "") as String?
         }
 
         @JvmStatic
@@ -50,11 +55,6 @@ class SettingStorageHelper {
         @JvmStatic
         fun setSetting(settingKey: String, settingValue: Any): Any? {
             return settingStorage.setSetting(settingKey, settingValue)
-        }
-
-        @JvmStatic
-        fun removeSetting(settingKey: String): Any? {
-            return settingStorage.removeSetting(settingKey)
         }
     }
 }

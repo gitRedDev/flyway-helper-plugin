@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
 
 
-class MarkAsMigrationRootAction : AnAction() {
+class UnMarkAsMigrationRootAction : AnAction() {
 
     /**
      * @param e
@@ -22,13 +22,14 @@ class MarkAsMigrationRootAction : AnAction() {
             return
         }
 
+
         val project = e.getData(CommonDataKeys.PROJECT)
         if (project == null) {
             Notifier(null).notifyError("An error has occurred")
             return
         }
 
-        SettingStorageHelper.setMigrationRootFolderPath(vf.path)
+        SettingStorageHelper.removeMigrationRootFolderPath()
         ApplicationManager.getApplication().invokeLater { ProjectView.getInstance(project).refresh() }
     }
 
@@ -36,6 +37,6 @@ class MarkAsMigrationRootAction : AnAction() {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
         val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath()
         e.presentation.isEnabledAndVisible = launchedFromFile?.isDirectory == true &&
-                launchedFromFile.path != migrationRootFolderPath
+                launchedFromFile.path == migrationRootFolderPath
     }
 }

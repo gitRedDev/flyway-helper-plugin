@@ -53,7 +53,7 @@ class CreateMigrationAction : AnAction() {
                 "New File",
                 "Use this file as reference",
                 false,
-                true,
+                !launchedFromFile.isDirectory,
                 Messages.getInformationIcon(),
                 "${nextMigrationFileVersion}__.sql",
                 object : InputValidatorEx {
@@ -110,8 +110,9 @@ class CreateMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath()
+        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath() ?: ""
 
-        e.presentation.isEnabledAndVisible = launchedFromFile?.path?.contains(migrationRootFolderPath) == true
+        e.presentation.isEnabledAndVisible = StringUtils.isNotBlank(migrationRootFolderPath) &&
+                launchedFromFile?.path?.contains(migrationRootFolderPath) == true
     }
 }

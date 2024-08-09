@@ -1,7 +1,6 @@
 package com.helpers.flywayhelper.helpers
 
 import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
-import com.helpers.flywayhelper.Constants.DEFAULT_MIGRATION_DIR_PATH
 import com.helpers.flywayhelper.entities.FlywayMigrationFile
 import com.helpers.flywayhelper.enums.MigrationNature
 import com.helpers.flywayhelper.enums.MigrationTypeEnum
@@ -39,6 +38,7 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
         return terminalClient.exec("git ls-tree -r --name-only $branch $migrationRootFolderPath")
                 .map { Path(it).fileName.name }
                 .map { FlywayMigrationFile(MigrationNature.UNKNOWN, it) }
+                .filter { it.isValidMigration() }
     }
 
     private fun getSyncedMigrationFiles(): List<FlywayMigrationFile> {
@@ -56,13 +56,13 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
             migrationFiles = getSyncedMigrationFiles()
         }
         val nextMigrationVersion = migrationFiles!!
-                .filter { it.isValidMigration() && it.getType() == MigrationTypeEnum.VERSIONED }
-                .maxByOrNull { it.getVersion()!!.getVersionNumberRepresentation()!! }!!
-                .getVersion()!!
-                .nextMigrationVersion()!!
+                .filter { it.getType() == MigrationTypeEnum.VERSIONED }
+                .maxByOrNull { it.getVersion()!!.getVersionNumberRepresentation()!! }
+                ?.getVersion()
+                ?.nextMigrationVersion()
 
         return try {
-            "V${nextMigrationVersion.getVersionString()}"
+            "V${nextMigrationVersion?.getVersionString() ?: ""}"
         } catch (_: Exception) {
             ""
         }

@@ -14,7 +14,7 @@ object Constants {
     const val LOCAL_BRANCH = "HEAD"
     const val SYNC_BRANCH_SETTING_KEY = "syncBranch"
     const val ON_INSTALL_SETTING_KEY = "onInstall"
-    const val MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY = "onInstall"
+    const val MIGRATION_ROOT_FOLDER_PATH_SETTING_KEY = "migrationRootFolderPath"
 
     const val NOTIFICATION_GROUP_ID = "flyway.migration.notification"
     const val WELCOME_MESSAGE = "Work with your flyway migrations easier.\n" +

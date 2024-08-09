@@ -10,6 +10,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
+import org.apache.commons.lang3.StringUtils
 
 
 class RefreshMigrationAction : AnAction() {
@@ -33,7 +34,7 @@ class RefreshMigrationAction : AnAction() {
 
             override fun onSuccess() {
                 super.onSuccess()
-                Notifier(project).notifyInfo("Refresh done !!")
+                Notifier(project).notifyInfo("Refreshing $syncedWithText done !!")
             }
 
             override fun onThrowable(error: Throwable) {
@@ -50,6 +51,9 @@ class RefreshMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        e.presentation.isEnabledAndVisible = launchedFromFile?.path?.contains(Regex("migration/(ddl|dml)")) == true
+        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath() ?: ""
+
+        e.presentation.isEnabledAndVisible = StringUtils.isNotBlank(migrationRootFolderPath) &&
+                launchedFromFile?.path?.contains(migrationRootFolderPath) == true
     }
 }

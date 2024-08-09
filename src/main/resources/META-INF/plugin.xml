@@ -67,6 +67,13 @@
                 description="Migrations root">
             <add-to-group group-id="MarkRootGroup" anchor="last"/>
         </action>
+        <action
+                id="flyway.migration.UnMarkAsMigrationRootAction"
+                class="com.helpers.flywayhelper.actions.UnMarkAsMigrationRootAction"
+                text="UnMark as Migrations Root"
+                description="UnMark as Migrations root">
+            <add-to-group group-id="MarkRootGroup" anchor="last"/>
+        </action>
         <group
                 id="flyway.migration.projectActions"
                 text="Flyway Helper"
@@ -79,18 +86,23 @@
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Other extensions -->
         <postStartupActivity implementation="com.helpers.flywayhelper.activities.OnOpenProjectActivity"/>
+        <iconProvider implementation="com.helpers.flywayhelper.providers.MigrationRootIconProvider"/>
     </extensions>
 
     <change-notes>
         <![CDATA[
-            <p><b>Version: 1.0.0</b></p>
+            <p><b>Version: 1.1.0</b></p>
             <ul>
               <li>Get the next version for your migration file automatically</li>
               <li>Avoid having version conflicts among your migration files</li>
             </ul>
             <p><i>PS: You can even sync it with a remote branch to get always the latest version that you may need</i></p>
+            <p><b>Version: 1.2.0</b></p>
+            <ul>
+              <li>fix bugs</li>
+              <li>add mark directory as migration root for specified folder to ensure compatibility with different specifications</li>
+            </ul>
         ]]>
     </change-notes>
 
