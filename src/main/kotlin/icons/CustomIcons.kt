@@ -12,11 +12,17 @@ object CustomIcons {
 
         @JvmField
         val MigrationFileIcon = IconLoader.getIcon("/plugin/icons/dark/migration-file.svg", javaClass)
+
+        @JvmField
+        val MigrationFolderRootIcon = IconLoader.getIcon("/plugin/icons/dark/migration-folder-root.svg", javaClass)
     }
 
     object White {
 
         @JvmField
-        val MigrationFileIcon = IconLoader.getIcon("/plugin/icons/dark/migration-file.svg", javaClass)
+        val MigrationFileIcon = IconLoader.getIcon("/plugin/icons/white/migration-file.svg", javaClass)
+
+        @JvmField
+        val MigrationFolderRootIcon = IconLoader.getIcon("/plugin/icons/white/migration-folder-file.svg", javaClass)
     }
 }

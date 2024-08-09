@@ -1,5 +1,6 @@
 package com.helpers.flywayhelper.actions
 
+import com.helpers.flywayhelper.Constants
 import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
 import com.helpers.flywayhelper.entities.FlywayMigrationFile
 import com.helpers.flywayhelper.helpers.FlywayMigrationHelper
@@ -23,7 +24,7 @@ import org.apache.commons.lang3.StringUtils
 class CreateMigrationAction : AnAction() {
 
     override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.EDT
+        return ActionUpdateThread.BGT
     }
 
     override fun actionPerformed(e: AnActionEvent) {
@@ -52,7 +53,7 @@ class CreateMigrationAction : AnAction() {
                 "New File",
                 "Use this file as reference",
                 false,
-                true,
+                !launchedFromFile.isDirectory,
                 Messages.getInformationIcon(),
                 "${nextMigrationFileVersion}__.sql",
                 object : InputValidatorEx {
@@ -109,8 +110,9 @@ class CreateMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        if (launchedFromFile?.path?.contains("migration/(ddl|dml)") != true) {
-            e.presentation.isEnabledAndVisible = true
-        }
+        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath() ?: ""
+
+        e.presentation.isEnabledAndVisible = StringUtils.isNotBlank(migrationRootFolderPath) &&
+                launchedFromFile?.path?.contains(migrationRootFolderPath) == true
     }
 }
