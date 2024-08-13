@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.helpers"
-version = "1.2-SNAPSHOT"
+version = "1.2.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -36,7 +36,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("222")
-        untilBuild.set("241.*")
+        untilBuild.set("242.*")
     }
 
     runPluginVerifier {
