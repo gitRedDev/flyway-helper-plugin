@@ -66,7 +66,7 @@ class MigrationVersion(private val version: String) {
         return MigrationVersion(versionNumbers.joinToString(""))
     }
 
-    fun isValidVersion(): Boolean {
+    private fun isValidVersion(): Boolean {
         return versionError() == null
     }
 

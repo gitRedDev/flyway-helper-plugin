@@ -5,7 +5,7 @@ import com.intellij.ide.IconProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiUtilCore
 import icons.CustomIcons
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 import javax.swing.Icon
 
 
