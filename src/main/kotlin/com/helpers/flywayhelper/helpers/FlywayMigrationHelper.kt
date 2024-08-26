@@ -2,6 +2,7 @@ package com.helpers.flywayhelper.helpers
 
 import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
 import com.helpers.flywayhelper.entities.FlywayMigrationFile
+import com.helpers.flywayhelper.entities.MigrationVersionComparator
 import com.helpers.flywayhelper.enums.MigrationNature
 import com.helpers.flywayhelper.enums.MigrationTypeEnum
 import com.helpers.flywayhelper.utils.terminal.TerminalClient
@@ -25,9 +26,12 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
         val trackedMigrations = terminalClient.exec("git ls-files $migrationRootFolderPath")
                 .map { Path(it).fileName.name }
                 .map { FlywayMigrationFile(MigrationNature.UNKNOWN, it) }
+                .filter { it.isValidMigration() }
+
         val untrackedMigrations = terminalClient.exec("git ls-files -o $migrationRootFolderPath")
                 .map { Path(it).fileName.name }
                 .map { FlywayMigrationFile(MigrationNature.UNKNOWN, it) }
+                .filter { it.isValidMigration() }
 
         return listOf(trackedMigrations, untrackedMigrations).flatten()
     }
@@ -57,8 +61,8 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
         }
         val nextMigrationVersion = migrationFiles!!
                 .filter { it.getType() == MigrationTypeEnum.VERSIONED }
-                .maxByOrNull { it.getVersion()!!.getVersionNumberRepresentation()!! }
-                ?.getVersion()
+                .map { it.getVersion()!! }
+                .maxWithOrNull(MigrationVersionComparator())
                 ?.nextMigrationVersion()
 
         return try {

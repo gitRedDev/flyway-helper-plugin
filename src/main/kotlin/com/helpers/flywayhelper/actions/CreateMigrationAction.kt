@@ -1,12 +1,11 @@
 package com.helpers.flywayhelper.actions
 
-import com.helpers.flywayhelper.Constants
 import com.helpers.flywayhelper.Constants.LOCAL_BRANCH
 import com.helpers.flywayhelper.entities.FlywayMigrationFile
-import com.helpers.flywayhelper.helpers.FlywayMigrationHelper
 import com.helpers.flywayhelper.enums.MigrationNature
-import com.helpers.flywayhelper.utils.notifications.Notifier
+import com.helpers.flywayhelper.helpers.FlywayMigrationHelper
 import com.helpers.flywayhelper.helpers.SettingStorageHelper
+import com.helpers.flywayhelper.utils.notifications.Notifier
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -34,7 +33,6 @@ class CreateMigrationAction : AnAction() {
             Notifier(null).notifyError("An error has occurred")
             return
         }
-
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
         if (launchedFromFile == null) {
             Notifier(null).notifyError("An error has occurred")
