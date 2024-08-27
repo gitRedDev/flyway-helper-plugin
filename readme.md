@@ -20,6 +20,7 @@ consideration while checking for version conflicts or/and when generating your
 * If you want to sync with a remote branch you can configure it in: <i>Tools -> flyway helper -> configure sync branch</i>
 * If sync branch is configured, you should refresh the migrations (before using the <i>New Migration</i> action) by : \
 <i>Right click on a migration file -> Flyway Helper -> Refresh migrations</i>
+<br>
   <i><p><b>
     PS: You can also use a file as reference by invoking the new migration action on it and then checking the 
     \<Use this file as reference\> checkbox.
