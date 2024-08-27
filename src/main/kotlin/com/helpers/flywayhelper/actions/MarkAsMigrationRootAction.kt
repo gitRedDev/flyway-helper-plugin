@@ -28,13 +28,14 @@ class MarkAsMigrationRootAction : AnAction() {
             return
         }
 
-        SettingStorageHelper.setMigrationRootFolderPath(vf.path)
+        SettingStorageHelper(project).setMigrationRootFolderPath(vf.path)
         ApplicationManager.getApplication().invokeLater { ProjectView.getInstance(project).refresh() }
     }
 
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath()
+        val project = e.getData(CommonDataKeys.PROJECT) ?: return
+        val migrationRootFolderPath = SettingStorageHelper(project).getMigrationRootFolderPath()
         e.presentation.isEnabledAndVisible = launchedFromFile?.isDirectory == true &&
                 launchedFromFile.path != migrationRootFolderPath
     }

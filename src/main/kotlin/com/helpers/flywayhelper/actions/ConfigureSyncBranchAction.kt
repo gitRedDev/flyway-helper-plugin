@@ -26,10 +26,11 @@ class ConfigureSyncBranchAction : AnAction() {
         val terminalClient = TerminalClient(project)
         val branches = terminalClient.exec("git branch -r --format=%(refname:short)\n")
 
-        val defaultValue =  SettingStorageHelper.getSyncBranch() ?: if(branches.isNotEmpty()) branches[0] else null
+        val settingStorageHelper = SettingStorageHelper(project)
+        val defaultValue =  settingStorageHelper.getSyncBranch() ?: if(branches.isNotEmpty()) branches[0] else null
         val branch = Messages.showEditableChooseDialog(
                 "Choose a branch to sync your migration naming with while creating a new one",
-                "Configure branch sync",
+                "Configure Branch Sync",
                 Messages.getInformationIcon(),
                 branches.toTypedArray(),
                 defaultValue,
@@ -48,7 +49,7 @@ class ConfigureSyncBranchAction : AnAction() {
         )
 
         if (branch != null) {
-            SettingStorageHelper.setSyncBranch(branch)
+            settingStorageHelper.setSyncBranch(branch)
         }
     }
 

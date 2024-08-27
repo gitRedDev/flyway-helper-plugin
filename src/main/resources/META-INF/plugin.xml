@@ -9,6 +9,10 @@
 
     <description>
         Flyway helper plugin to help interacting with migrations.
+        Avoid having migration version conflicts and get an "auto-calculated" version when creating a new one.
+        The plugin goes even further and let you specify a remote branch to take into
+        consideration while checking for version conflicts or/and when generating your
+        "auto-calculated" next migration.
     </description>
     <vendor>red1</vendor>
 
@@ -110,6 +114,10 @@
             <p><b>Version: 1.2.2</b></p>
             <ul>
               <li>Fix some bugs within next migration version suggestions</li>
+            </ul>
+            <p><b>Version: 1.3.0</b></p>
+            <ul>
+              <li>Migration Root Folder and Sync Branch is now specified by project. (you can specify the configs for each project individually)</li>
             </ul>
         ]]>
     </change-notes>

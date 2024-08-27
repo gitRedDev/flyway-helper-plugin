@@ -11,7 +11,7 @@ import javax.swing.Icon
 
 class MigrationRootIconProvider : IconProvider() {
     override fun getIcon(element: PsiElement, flags: Int): Icon? {
-        val migrationRootPath = SettingStorageHelper.getMigrationRootFolderPath()
+        val migrationRootPath = SettingStorageHelper(element.project).getMigrationRootFolderPath()
 
         if (StringUtils.isNotBlank(migrationRootPath) && PsiUtilCore.getVirtualFile(element)?.path == migrationRootPath) {
             return CustomIcons.Dark.MigrationFolderRootIcon

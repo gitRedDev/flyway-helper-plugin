@@ -40,7 +40,8 @@ class CreateMigrationAction : AnAction() {
         }
         val launchedFromDir = if (launchedFromFile.isDirectory) launchedFromFile else launchedFromFile.parent
 
-        val syncBranch = SettingStorageHelper.getSyncBranch() ?: LOCAL_BRANCH
+        val settingStorageHelper = SettingStorageHelper(project)
+        val syncBranch = settingStorageHelper.getSyncBranch() ?: LOCAL_BRANCH
         val syncBranchStringMessage = if (syncBranch != LOCAL_BRANCH) "(synced with $syncBranch)" else ""
 
         val flywayMigrationHelper = FlywayMigrationHelper(project, syncBranch)
@@ -108,7 +109,9 @@ class CreateMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath() ?: ""
+        val project = e.getData(CommonDataKeys.PROJECT) ?: return
+
+        val migrationRootFolderPath = SettingStorageHelper(project).getMigrationRootFolderPath() ?: ""
 
         e.presentation.isEnabledAndVisible = StringUtils.isNotBlank(migrationRootFolderPath) &&
                 launchedFromFile?.path?.contains(migrationRootFolderPath) == true

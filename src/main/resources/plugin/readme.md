@@ -24,6 +24,9 @@ consideration while checking for version conflicts or/and when generating your
     PS: You can also use a file as reference by invoking the new migration action on it and then checking the 
     \<Use this file as reference\> checkbox.
   </b></p></i>
+  <i><p><b>
+    PS2: Migration Root Folder and Sync Branch is specified by project. You can have different configs for each project.
+  </b></p></i>
 
 <br>
 <h5 style="text-align:center;opacity: 70%">Made with ❤️ by Red1.</h5>

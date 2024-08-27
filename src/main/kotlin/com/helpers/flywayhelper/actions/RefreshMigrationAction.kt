@@ -23,7 +23,9 @@ class RefreshMigrationAction : AnAction() {
 
         val project = e.getData(CommonDataKeys.PROJECT) ?: return
         val flywayMigrationHelper = FlywayMigrationHelper(project)
-        val syncBranch = SettingStorageHelper.getSyncBranch()
+
+        val  settingStorageHelper = SettingStorageHelper(project)
+        val syncBranch = settingStorageHelper.getSyncBranch()
         val syncedWithText = if (syncBranch == null) "" else "and syncing with branch $syncBranch"
 
         ProgressManager.getInstance().run(object : Task.Backgroundable(project, "Refreshing migrations") {
@@ -51,7 +53,9 @@ class RefreshMigrationAction : AnAction() {
      */
     override fun update(e: AnActionEvent) {
         val launchedFromFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath() ?: ""
+        val project = e.getData(CommonDataKeys.PROJECT) ?: return
+
+        val migrationRootFolderPath = SettingStorageHelper(project).getMigrationRootFolderPath() ?: ""
 
         e.presentation.isEnabledAndVisible = StringUtils.isNotBlank(migrationRootFolderPath) &&
                 launchedFromFile?.path?.contains(migrationRootFolderPath) == true

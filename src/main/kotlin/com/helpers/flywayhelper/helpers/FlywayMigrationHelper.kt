@@ -12,7 +12,7 @@ import kotlin.io.path.Path
 import kotlin.io.path.name
 
 
-class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL_BRANCH) {
+class FlywayMigrationHelper(private val project: Project, private val branch: String = LOCAL_BRANCH) {
 
     private val terminalClient = TerminalClient(project)
     private var migrationFiles: List<FlywayMigrationFile>? = null
@@ -22,7 +22,7 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
     }
 
     private fun getLocalMigrationFiles(): List<FlywayMigrationFile> {
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath()
+        val migrationRootFolderPath = SettingStorageHelper(project).getMigrationRootFolderPath()
         val trackedMigrations = terminalClient.exec("git ls-files $migrationRootFolderPath")
                 .map { Path(it).fileName.name }
                 .map { FlywayMigrationFile(MigrationNature.UNKNOWN, it) }
@@ -37,7 +37,7 @@ class FlywayMigrationHelper(project: Project, private val branch: String = LOCAL
     }
 
     private fun getMigrationFiles(branch: String): List<FlywayMigrationFile> {
-        val migrationRootFolderPath = SettingStorageHelper.getMigrationRootFolderPath()
+        val migrationRootFolderPath = SettingStorageHelper(project).getMigrationRootFolderPath()
 
         return terminalClient.exec("git ls-tree -r --name-only $branch $migrationRootFolderPath")
                 .map { Path(it).fileName.name }

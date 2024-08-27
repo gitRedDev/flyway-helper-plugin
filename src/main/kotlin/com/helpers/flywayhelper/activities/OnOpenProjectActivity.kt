@@ -9,10 +9,12 @@ import com.intellij.openapi.startup.StartupActivity
 
 class OnOpenProjectActivity : StartupActivity, DumbAware {
     override fun runActivity(project: Project) {
-        if (SettingStorageHelper.isOnInstall()) {
+
+        val settingStorageHelper = SettingStorageHelper(project)
+        if (settingStorageHelper.isOnInstall()) {
             val notifier = Notifier(project)
             notifier.howToUseNotify()
-            SettingStorageHelper.markFalseOnInstall()
+            settingStorageHelper.markFalseOnInstall()
         }
     }
 }

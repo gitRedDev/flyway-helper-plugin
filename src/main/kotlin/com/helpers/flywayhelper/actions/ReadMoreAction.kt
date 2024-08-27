@@ -3,7 +3,7 @@ package com.helpers.flywayhelper.actions
 import com.helpers.flywayhelper.Constants.PLUGIN_DIRECTORY_PATH
 import com.helpers.flywayhelper.Constants.PLUGIN_README_IMAGE_NAME
 import com.helpers.flywayhelper.Constants.PLUGIN_README_NAME
-import com.helpers.flywayhelper.helpers.VfsHelper
+import com.helpers.flywayhelper.utils.vfs.CustomVfsUtil
 import com.helpers.flywayhelper.utils.notifications.Notifier
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -25,7 +25,7 @@ class ReadMoreAction : AnAction() {
             return
         }
 
-        val vfsHelper = VfsHelper(project)
+        val customVfsUtil = CustomVfsUtil(project)
 
         val r = Runnable {
             val pluginReadmeContent = javaClass.classLoader.getResourceAsStream("plugin/${PLUGIN_README_NAME}")
@@ -40,7 +40,7 @@ class ReadMoreAction : AnAction() {
                     PLUGIN_README_NAME to pluginReadmeContent,
                     PLUGIN_README_IMAGE_NAME to pluginImageContent
             )
-            vfsHelper.findOrCreateFilesFromInputStreamAndOpen(PLUGIN_DIRECTORY_PATH, files, PLUGIN_README_NAME)
+            customVfsUtil.createOrUpdateFilesFromInputStreamAndOpen(PLUGIN_DIRECTORY_PATH, files, PLUGIN_README_NAME)
         }
 
         try {

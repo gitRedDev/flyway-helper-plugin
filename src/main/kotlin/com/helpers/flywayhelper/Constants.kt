@@ -10,7 +10,7 @@ object Constants {
 
 
     //settings
-    const val DEFAULT_MIGRATION_DIR_PATH = "src/main/resources/db/migration"
+    const val BY_PROJECT_SETTING_FILE = "settings.json" //relative to PLUGIN_DIRECTORY_PATH
     const val LOCAL_BRANCH = "HEAD"
     const val SYNC_BRANCH_SETTING_KEY = "syncBranch"
     const val ON_INSTALL_SETTING_KEY = "onInstall"
