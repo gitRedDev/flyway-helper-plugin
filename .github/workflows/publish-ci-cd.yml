@@ -4,8 +4,6 @@ name: Publish Plugin
 on:
   push:
     branches: [ "dev" ]
-  pull_request:
-    branches: [ "dev" ]
 
   workflow_dispatch:
 
@@ -26,10 +24,10 @@ jobs:
 
       - name: Publish the plugin
         env:
-          PRIVATE_KEY_PASSWORD: ${{PRIVATE_KEY_PASSWORD}}
-          PRIVATE_KEY: ${{PRIVATE_KEY}}
-          CERTIFICATE_CHAIN: ${{CERTIFICATE_CHAIN}}
-          PUBLISH_TOKEN: ${{PUBLISH_TOKEN}}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
         run: |
           echo Starting - PublishPlugin
           .\gradlew publishPlugin
