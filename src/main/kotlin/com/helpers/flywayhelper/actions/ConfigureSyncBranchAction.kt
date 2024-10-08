@@ -12,9 +12,6 @@ import com.intellij.openapi.ui.Messages
 
 class ConfigureSyncBranchAction : AnAction() {
 
-    /**
-     * @param e
-     */
     override fun actionPerformed(e: AnActionEvent) {
 
         val project = e.getData(CommonDataKeys.PROJECT)
