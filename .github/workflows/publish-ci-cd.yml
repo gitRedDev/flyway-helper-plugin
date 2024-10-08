@@ -21,15 +21,18 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Publish the plugin
+      - name: sign and build the plugin
         env:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+        run: |
+          echo Starting - signPlugin
+          gradle signPlugin
+
+      - name: Publish the plugin
+        env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
         run: |
           echo Starting - PublishPlugin
-          gradlew publishPlugin
+          gradle publishPlugin
