@@ -1,0 +1,35 @@
+
+name: Publish Plugin
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: 17
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Publish the plugin
+        env:
+          PRIVATE_KEY_PASSWORD: ${{PRIVATE_KEY_PASSWORD}}
+          PRIVATE_KEY: ${{PRIVATE_KEY}}
+          CERTIFICATE_CHAIN: ${{CERTIFICATE_CHAIN}}
+          PUBLISH_TOKEN: ${{PUBLISH_TOKEN}}
+        run: |
+          echo Starting - PublishPlugin
+          .\gradlew publishPlugin
