@@ -3,19 +3,23 @@ package com.helpers.flywayhelper.actions
 import com.helpers.flywayhelper.Constants.PLUGIN_DIRECTORY_PATH
 import com.helpers.flywayhelper.Constants.PLUGIN_README_IMAGE_NAME
 import com.helpers.flywayhelper.Constants.PLUGIN_README_NAME
-import com.helpers.flywayhelper.utils.vfs.CustomVfsUtil
 import com.helpers.flywayhelper.utils.notifications.Notifier
+import com.helpers.flywayhelper.utils.vfs.CustomVfsUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.guessProjectDir
-import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.notificationGroup
 import com.intellij.openapi.vfs.VfsUtil
 import java.nio.file.Paths
 
 class ReadMoreAction : AnAction() {
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
+    }
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.getData(CommonDataKeys.PROJECT)
