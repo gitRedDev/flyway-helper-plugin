@@ -46,12 +46,13 @@ tasks {
 
 
     signPlugin {
-        certificateChainFile.set(file(System.getenv("CERTIFICATE_CHAIN_FILE")))
-        privateKeyFile.set(file(System.getenv("PRIVATE_KEY_FILE")))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+
     }
 
-//    publishPlugin {
-//        token.set(System.getenv("PUBLISH_TOKEN"))
-//    }
+    publishPlugin {
+        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
+    }
 }
