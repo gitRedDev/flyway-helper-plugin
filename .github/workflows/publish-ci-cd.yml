@@ -32,4 +32,4 @@ jobs:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
         run: |
           echo Starting - PublishPlugin
-          .\gradlew publishPlugin
+          gradlew publishPlugin
