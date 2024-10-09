@@ -17,7 +17,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v4.4.0
         with:
-          java-version: '17'
+          java-version: '20'
           distribution: 'temurin'
           cache: 'gradle'
 
@@ -28,11 +28,11 @@ jobs:
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
         run: |
           echo Starting - signPlugin
-          gradle signPlugin
+          ./gradlew signPlugin
 
       - name: Publish the plugin
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
         run: |
           echo Starting - PublishPlugin
-          gradle publishPlugin
+          ./gradlew publishPlugin
