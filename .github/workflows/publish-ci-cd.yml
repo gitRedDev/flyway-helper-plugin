@@ -34,8 +34,8 @@ jobs:
           TEST: ${{ env.TEST }}
         run: |
           echo Starting - signPlugin
-          echo "$TEST"
-          ./gradlew signPlugin
+          echo $TEST
+          ./gradlew signPlugin 
 
       - name: Publish the plugin
         env:
