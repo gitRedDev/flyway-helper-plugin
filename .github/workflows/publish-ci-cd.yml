@@ -31,10 +31,8 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
-          TEST: ${{ env.TEST }}
         run: |
           echo Starting - signPlugin
-          echo $TEST
           ./gradlew signPlugin 
 
       - name: Publish the plugin
